@@ -1,69 +1,81 @@
 # frozen_string_literal: true
 
-# Stores the board and checks for wins as well as places game tokens
+require './player.rb'
+require './cpu.rb'
+require './board.rb'
+require './round_system.rb'
+
+# Places game tokens and runs the game, checks for wins etc.
 class Game
-  @board = %w[- - -
-              - - -
-              - - -]
+  attr_accessor :rounds_to_play, :player1, :player2, :cpu, :current_board, :rounds_played, :num_players
 
-  attr_reader :board
+  include RoundSystem
 
-  def self.board
-    @board
+  def initialize
+    @rounds_to_play = 0
+    @rounds_played = 0
+    @num_players = 1
   end
 
-  def self.place_token(position, token)
-    @board[position] = token
+  def start_game
+    puts "Hello, and welome to Tic-Tac-Toe!\n"
+    amt_players
+    puts
+    if num_players == '1'
+      self.player1 = player_creator
+      self.cpu = Cpu.new
+      get_tokens cpu
+      ask_num_round
+      round_vs cpu
+      compare_wins cpu
+    else
+      self.player1 = player_creator
+      self.player2 = player_creator
+      get_tokens player2
+      self.rounds_to_play = ask_num_round
+      round_vs player2
+      compare_wins player2
+    end
   end
 
-  def self.board_ref
-    board_ref = %w[0 1 2
-                   3 4 5
-                   6 7 8]
-
-    puts 'Here is a reference of the board positions.'
-
-    puts <<~HEREDOC
-      *****************
-      ( | #{board_ref[0]} | #{board_ref[1]} | #{board_ref[2]} | )
-      ) | #{board_ref[3]} | #{board_ref[4]} | #{board_ref[5]} | ( 
-      ( | #{board_ref[6]} | #{board_ref[7]} | #{board_ref[8]} | )
-      *****************
-    HEREDOC
+  def compare_wins(who)
+    if player1.wins > who.wins
+      player1.win_message
+    elsif  player1.wins == who.wins
+      who.tie_message
+    else
+      who.win_message
+    end
   end
 
-  def self.table
-    puts <<~HEREDOC
-      *****************
-      ( | #{@board[0]} | #{@board[1]} | #{@board[2]} | )
-      ) | #{@board[3]} | #{@board[4]} | #{@board[5]} | ( 
-      ( | #{@board[6]} | #{@board[7]} | #{@board[8]} | )
-      *****************
-    HEREDOC
+  def amt_players
+    amt_players_message
+    self.num_players = gets.chomp
+    unless num_players == '1' || num_players == '2'
+      puts "Please enter 1 or 2\n"
+      amt_players
+    end
   end
 
-  def self.winner?(h_token, cpu_token)
-    winning_combos = [
-      [@board[0], @board[1], @board[2]],
-      [@board[3], @board[4], @board[5]],
-      [@board[6], @board[7], @board[8]],
-      [@board[0], @board[4], @board[8]],
-      [@board[6], @board[4], @board[2]],
-      [@board[0], @board[3], @board[6]],
-      [@board[1], @board[4], @board[7]],
-      [@board[2], @board[5], @board[8]]
-    ]
+  def amt_players_message
+    puts "Is this a one player or two players game?:\n"
+    puts "Please enter 1 or 2\n"
+  end
 
-    winning_combos.each do |set|
-      if set.all? { |item| item == h_token }
-        puts 'Great job you win!'
-        return true
-      elsif set.all? { |item| item == cpu_token }
-        puts 'The Cpu beat you down!'
-        return true
-      else
-        false
-      end
+  def player_creator
+    puts "Please enter the players name:\n"
+    name = gets.chomp
+    puts
+    Player.new name
+  end
+
+  def get_tokens(who)
+    player1.choose_token
+
+    if player1.token == 'x'
+      who.token = 'o'
+    else
+      who.token = 'x'
     end
   end
 end

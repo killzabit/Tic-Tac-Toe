@@ -1,33 +1,29 @@
 # frozen_string_literal: true
 
-require './game.rb'
-# This comment made the ruby police happy
+require './win_messages.rb'
+
+# This class is for the humans
 class Player
-  class <<self
-    attr_accessor :token
+  attr_accessor :token, :name, :wins
+
+  include WinMessages
+
+  def initialize(name = 'human')
+    @name, @token, @wins = name, token, 0
   end
 
-  def self.choose_token
+  def choose_token
     puts 'Choose x or o for a token: '
     self.token = gets.chomp
-
-    if token != 'x' && token != 'o'
-      puts 'please choose x or o!'
+    puts
+    if self.token != 'x' && self.token != 'o'
+      puts "please choose x or o!\n"
       choose_token
     end
   end
 
-  def self.place_token
-    board = Game.board
-
-    puts 'pick place on the board to place your token'
-    position = gets.chomp.to_i
-
-    if board[position] != '-'
-      puts 'There is already a token there, choose again!'
-      place_token
-    else
-      Game.place_token(position, token)
-    end
+  def get_position
+    puts 'Pick a place on the board to place your token: '
+    gets.chomp.to_i
   end
 end
