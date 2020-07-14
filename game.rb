@@ -32,7 +32,7 @@ class Game
       self.player1 = player_creator
       self.player2 = player_creator
       get_tokens player2
-      self.rounds_to_play = ask_num_round
+      ask_num_round
       round_vs player2
       compare_wins player2
     end
