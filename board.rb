@@ -4,10 +4,8 @@
 class Board
   attr_accessor :board
 
-  def initialize
-    @board = %w[- - -
-                - - -
-                - - -]
+  def initialize(board = %w[- - - - - - - - -])
+    @board = board
   end
 
   def board_ref

@@ -9,7 +9,7 @@ module RoundSystem
       place_token self.player1
       self.current_board.table
       if self.current_board.winner?(self.player1.token) == true
-        increment_rounds_played
+        increment_rounds_played unless self.rounds_to_play > 1
         self.player1.round_win
         if self.rounds_played < self.rounds_to_play
           new_round who
@@ -31,7 +31,6 @@ module RoundSystem
       place_token who
       current_board.table
       if self.current_board.winner?(who.token) == true
-        increment_rounds_played
         who.round_win
         if self.rounds_played < self.rounds_to_play
           new_round who
