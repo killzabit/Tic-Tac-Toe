@@ -10,8 +10,7 @@ describe Board do
       subject(:winning_board) { instance_double(Board, board: %w[ - - - - - - - -]) }
 
       it 'returns true' do
-        expect(winning_board).to receive(:winner?).with(token_x).and_return(true)
-        winning_board.winner?(token_x)
+        expect(winning_board.winner?(token_x)).to be_true
       end
     end
   end
