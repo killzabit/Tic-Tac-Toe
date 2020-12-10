@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './win_messages.rb'
+require_relative './win_messages.rb'
 # the computer player class. create token positions and places token.
 class Cpu
   attr_accessor :token, :wins

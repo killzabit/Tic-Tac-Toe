@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './game.rb'
+require_relative './game.rb'
 
 
 g = Game.new

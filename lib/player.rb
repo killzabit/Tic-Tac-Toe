@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './win_messages.rb'
+require_relative './win_messages.rb'
 
 # This class is for the humans
 class Player
@@ -13,13 +13,13 @@ class Player
   end
 
   def choose_token
-    puts 'Choose x or o for a token: '
-    self.token = gets.chomp
-    puts
-    if self.token != 'x' && self.token != 'o'
-      puts "please choose x or o!\n"
-      choose_token
-    end
+    puts 'Please choose x or o for a token: '
+    @token = verify_token gets.chomp
+  end
+
+  def verify_token(token)
+    return token if token == 'x' || token == 'o'
+    choose_token
   end
 
   def get_position

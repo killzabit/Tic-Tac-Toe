@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require './player.rb'
-require './cpu.rb'
-require './board.rb'
-require './round_system.rb'
+require_relative './player.rb'
+require_relative './cpu.rb'
+require_relative './board.rb'
+require_relative './round_system.rb'
 
 # Places game tokens and runs the game, checks for wins etc.
 class Game

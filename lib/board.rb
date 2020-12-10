@@ -55,5 +55,6 @@ class Board
     ].each do |set|
       return true if set.all? { |cell| cell == token }
     end
+    false
   end
 end
